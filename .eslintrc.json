@@ -2,7 +2,6 @@
   "extends": [
     "airbnb",
     "prettier",
-    "prettier/react",
     "plugin:jsx-a11y/recommended"
   ],
   "parser": "babel-eslint",
@@ -81,16 +80,8 @@
       2,
       "single",
       {
-        "avoidEscape": true,
+        "avoidEscape": true,  
         "allowTemplateLiterals": true
-      }
-    ],
-    "prettier/prettier": [
-      "error",
-      {
-        "trailingComma": "none",
-        "singleQuote": true,
-        "printWidth": 100
       }
     ],
     "jsx-a11y/href-no-hash": "off",
