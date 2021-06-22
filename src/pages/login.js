@@ -30,7 +30,6 @@ const Login = () => {
             setPassword('')
             setError(error.message)
         }
-
     }
 
     return (
