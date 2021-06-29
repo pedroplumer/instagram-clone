@@ -1,3 +1,4 @@
+import user from '../components/sidebar/user';
 import { firebase, FieldValue } from '../lib/firebase';
 
 export const doesUserNameExists =  async (userName) => {
@@ -18,9 +19,19 @@ export const getUserByUserId = async(userId) => {
     return user;
 }
 
-// export const getSuggestedProfiles = async(userId) => {
+export const getSuggestedProfiles = async(userId, following) => {
+    const results = await firebase.firestore().collection('users').limit('10').get();
 
+    return results.docs.map(user => ({ ...user.data(), docId: user.id}))
+        .filter(profile => profile.userId !== userId && !following.includes(profile.userId));
+}
 
+export const updateLoggedInUserFollowing = async (loggedInUserDocId, profileId, isFollowingProfile) => firebase.firestore().collection('users')
+        .doc(loggedInUserDocId)
+        .update({following: isFollowingProfile ? FieldValue.arrayRemove(profileId) : FieldValue.arrayUnion(profileId)
+    })
 
-//     return profiles;
-// }
+export const updateFollowedUserFollowers = async(profileDocId, loggedInUserDocId, isFollowingProfile) => firebase.firestore().collection('users')
+        .doc(profileDocId).update({
+        followers: isFollowingProfile ? FieldValue.arrayRemove(loggedInUserDocId) : FieldValue.arrayUnion(loggedInUserDocId)
+    })
